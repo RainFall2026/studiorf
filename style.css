@@ -1,0 +1,555 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #000000;
+    color: #ffffff;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* 移动端全局触摸优化 */
+@media (max-width: 768px) {
+    body {
+        touch-action: pan-y; /* 允许垂直滚动，禁止水平滚动和双指缩放 */
+        overscroll-behavior-y: contain; /* 防止下拉刷新 */
+    }
+
+    /* 禁用图片长按保存 */
+    img {
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+    }
+}
+
+/* 导航栏样式 */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    color: #000000;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #000000;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 50px;
+}
+
+/* 汉堡菜单按钮（默认隐藏） */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+}
+
+.hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: #000000;
+    transition: all 0.3s ease;
+    margin: 3px 0;
+}
+
+/* 汉堡菜单激活状态（X形状） */
+.hamburger.active .hamburger-line:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+}
+
+.hamburger.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .hamburger-line:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.nav-menu a:hover {
+    color: #e60000;
+}
+
+/* 移动端导航链接触摸反馈 */
+@media (max-width: 768px) {
+    .nav-menu a {
+        transition: color 0.2s ease, background-color 0.2s ease;
+        padding: 8px 12px;
+        border-radius: 4px;
+        margin: -8px -12px;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a:active {
+        color: #e60000;
+        background-color: rgba(230, 0, 0, 0.05);
+    }
+}
+
+/* 首屏视频区域 */
+.hero-section {
+    height: 100vh;
+    position: relative;
+    background-color: #000000;
+    margin-top: 65px;
+}
+
+.video-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+#heroVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #ffffff;
+    z-index: 10;
+}
+
+.hero-content h1 {
+    font-size: 72px;
+    font-weight: 700;
+    letter-spacing: 8px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.hero-content p {
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 4px;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #ffffff;
+    z-index: 10;
+}
+
+.scroll-indicator span {
+    display: block;
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+.arrow-down {
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    transform: rotate(45deg);
+    margin: 0 auto;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) rotate(45deg);
+    }
+    40% {
+        transform: translateY(-10px) rotate(45deg);
+    }
+    60% {
+        transform: translateY(-5px) rotate(45deg);
+    }
+}
+
+/* 作品展示区域 */
+.works-section {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 80px 30px;
+}
+
+.works-container {
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 48px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 50px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.works-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 25px;
+    align-items: stretch;
+}
+
+.large-card {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    display: flex;
+    flex-direction: column;
+}
+
+.large-card .card-image-wrapper {
+    flex: 1;
+}
+
+.small-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.work-card {
+    background-color: #ffffff;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+/* 移动端卡片点击区域优化 */
+@media (max-width: 768px) {
+    .work-card {
+        margin: 0 -8px; /* 增加点击区域 */
+        padding: 8px;
+    }
+}
+
+.card-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    background-color: #f5f5f5;
+}
+
+.large-card .card-image-wrapper {
+    aspect-ratio: 16 / 9;
+}
+
+.small-card .card-image-wrapper {
+    aspect-ratio: 16 / 10;
+}
+
+.card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    display: block;
+}
+
+.card-image-wrapper:hover img {
+    transform: scale(1.08);
+}
+
+/* 移动端触摸反馈 */
+@media (max-width: 768px) {
+    .card-image-wrapper:hover img {
+        transform: none;
+    }
+
+    .card-image-wrapper:active img {
+        transform: scale(0.97);
+        transition: transform 0.1s ease;
+    }
+}
+
+.card-info {
+    padding: 18px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.card-info h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #000000;
+}
+
+.card-info p {
+    font-size: 15px;
+    color: #666666;
+    margin-bottom: 12px;
+}
+
+.category {
+    display: inline-block;
+    font-size: 13px;
+    color: #e60000;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* 页脚 */
+.footer {
+    background-color: #000000;
+    color: #666666;
+    text-align: center;
+    padding: 30px 40px;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+/* 响应式设计 - 平板设备 */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .nav-container {
+        padding: 18px 30px;
+    }
+
+    .hero-content h1 {
+        font-size: 56px;
+        letter-spacing: 6px;
+    }
+
+    .hero-content p {
+        font-size: 20px;
+        letter-spacing: 3px;
+    }
+
+    .section-title {
+        font-size: 40px;
+    }
+
+    .works-layout {
+        gap: 20px;
+    }
+
+    .card-info h3 {
+        font-size: 18px;
+    }
+}
+
+/* 响应式设计 - 手机设备 */
+@media (max-width: 768px) {
+    /* 显示汉堡菜单 */
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-container {
+        padding: 15px 20px;
+        flex-wrap: wrap;
+        position: relative;
+    }
+
+    /* 移动端导航菜单样式 */
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        flex-direction: column;
+        gap: 0;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    /* 菜单激活时显示 */
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .nav-menu li {
+        border-bottom: 1px solid #e0e0e0;
+        padding: 12px 0;
+    }
+
+    .nav-menu li:last-child {
+        border-bottom: none;
+    }
+
+    .nav-menu a {
+        font-size: 16px;
+        display: block;
+        padding: 8px 0;
+    }
+
+    .hero-content h1 {
+        font-size: 36px;
+        letter-spacing: 3px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+        letter-spacing: 2px;
+    }
+
+    .section-title {
+        font-size: 28px;
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+    }
+
+    .works-layout {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .large-card {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .small-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .works-section {
+        padding: 50px 16px;
+    }
+
+    /* 卡片信息移动端优化 */
+    .card-info {
+        padding: 14px 0;
+    }
+
+    .card-info h3 {
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .card-info p {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .category {
+        font-size: 12px;
+    }
+
+    /* 滚动指示器移动端优化 */
+    .scroll-indicator span {
+        font-size: 12px;
+    }
+
+    /* 页脚移动端优化 */
+    .footer {
+        padding: 20px 16px;
+        font-size: 13px;
+    }
+}
+
+/* 响应式设计 - 小屏手机（< 480px） */
+@media (max-width: 480px) {
+    .logo {
+        font-size: 20px;
+        letter-spacing: 1px;
+    }
+
+    .nav-container {
+        padding: 12px 16px;
+    }
+
+    .hero-content h1 {
+        font-size: 28px;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+    }
+
+    .hero-content p {
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+
+    .section-title {
+        font-size: 24px;
+        margin-bottom: 25px;
+        letter-spacing: 1.5px;
+    }
+
+    .works-section {
+        padding: 40px 12px;
+    }
+
+    .card-info h3 {
+        font-size: 16px;
+    }
+
+    .card-info p {
+        font-size: 13px;
+    }
+
+    .scroll-indicator {
+        bottom: 25px;
+    }
+
+    .arrow-down {
+        width: 16px;
+        height: 16px;
+    }
+}

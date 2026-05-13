@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品详情 - Studio RF</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .detail-section {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 70px 30px;
+            margin-top: 65px;
+        }
+
+        .detail-container {
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #000000;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+            touch-action: manipulation;
+            padding: 10px 15px; /* 增加点击区域 */
+            margin-left: -15px; /* 抵消padding影响 */
+        }
+
+        .back-button:hover {
+            color: #e60000;
+        }
+
+        /* 移动端触摸反馈 */
+        @media (max-width: 768px) {
+            .back-button:active {
+                color: #e60000;
+                transform: translateX(-3px);
+                transition: all 0.15s ease;
+            }
+        }
+
+        .arrow-left {
+            width: 20px;
+            height: 20px;
+            border-left: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            transform: rotate(45deg);
+        }
+
+        .detail-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-top: 25px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: #000000;
+            overflow: hidden;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .detail-info h1 {
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .meta-info {
+            margin-bottom: 25px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            min-width: 80px;
+            color: #666666;
+        }
+
+        .meta-value {
+            color: #000000;
+        }
+
+        .category-tag {
+            display: inline-block;
+            background-color: #e60000;
+            color: #ffffff;
+            padding: 5px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .description {
+            margin-top: 28px;
+            padding-top: 28px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .description h3 {
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .description p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #333333;
+            text-align: justify;
+        }
+
+        @media (max-width: 768px) {
+            .detail-section {
+                padding: 50px 20px;
+            }
+            
+            .back-button {
+                margin-bottom: 25px;
+            }
+
+            .detail-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin-top: 20px;
+            }
+
+            .detail-info h1 {
+                font-size: 32px;
+                margin-bottom: 15px;
+            }
+            
+            .description {
+                margin-top: 22px;
+                padding-top: 22px;
+            }
+
+            /* 移动端视频优化 */
+            .video-wrapper {
+                aspect-ratio: 16 / 9;
+                max-height: 300px;
+            }
+
+            /* 禁用移动端自动播放以节省流量 */
+            .video-wrapper video {
+                autoplay: false;
+                preload: "metadata";
+            }
+        }
+
+        /* 制作过程展示区域 */
+        .process-section {
+            background-color: #fafafa;
+            padding: 70px 30px;
+            margin-top: 0;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .process-container {
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .process-title {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #000000;
+        }
+
+        .process-timeline {
+            position: relative;
+        }
+
+        .process-step {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 60px;
+            align-items: start;
+        }
+
+        .process-step:nth-child(even) {
+            grid-template-columns: 1.5fr 1fr;
+        }
+
+        .process-step:nth-child(even) .step-content {
+            order: -1;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: #e60000;
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 700;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .step-content h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .step-content p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #555555;
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        .step-visual {
+            position: relative;
+        }
+
+        .step-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .step-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        /* 移动端触摸反馈 */
+        @media (max-width: 768px) {
+            .step-image:hover {
+                transform: none;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            }
+
+            .step-image:active {
+                transform: scale(0.98);
+                transition: all 0.15s ease;
+            }
+        }
+
+        .image-caption {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #888888;
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* 调色前后对比滑块 */
+        .comparison-slider {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            cursor: ew-resize;
+            user-select: none;
+        }
+
+        .comparison-slider img {
+            display: block;
+            width: 100%;
+            height: auto;
+            pointer-events: none;
+        }
+
+        .comparison-before,
+        .comparison-after {
+            display: block;
+        }
+
+        .comparison-before {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comparison-before img {
+            filter: grayscale(30%) contrast(90%) brightness(95%);
+        }
+
+        .comparison-after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: #ffffff;
+            cursor: ew-resize;
+            z-index: 10;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .slider-handle::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider-handle::after {
+            content: '⟨ ⟩';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+            color: #333333;
+            letter-spacing: 2px;
+            z-index: 11;
+        }
+
+        .slider-label {
+            position: absolute;
+            top: 15px;
+            padding: 5px 12px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 3px;
+            z-index: 9;
+        }
+
+        .label-before {
+            left: 15px;
+        }
+
+        .label-after {
+            right: 15px;
+        }
+
+        /* 技术参数标签 */
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #666666;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .process-section {
+                padding: 50px 20px;
+            }
+
+            .process-title {
+                font-size: 28px;
+                margin-bottom: 35px;
+            }
+
+            .process-step,
+            .process-step:nth-child(even) {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                margin-bottom: 45px;
+            }
+
+            .process-step:nth-child(even) .step-content {
+                order: 0;
+            }
+
+            .step-content h3 {
+                font-size: 19px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">STUDIO RF</div>
+            <!-- 汉堡菜单按钮（仅移动端显示） -->
+            <button class="hamburger" id="hamburger" aria-label="打开菜单" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="index.html#works">作品</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 详情内容 -->
+    <section class="detail-section">
+        <div class="detail-container">
+            <a href="index.html" class="back-button">
+                <span class="arrow-left"></span>
+                <span>返回作品列表</span>
+            </a>
+
+            <div class="detail-content" id="detailContent">
+                <!-- 动态加载内容 -->
+                <div class="video-wrapper">
+                    <video id="detailVideo" controls autoplay muted>
+                        您的浏览器不支持视频播放
+                    </video>
+                </div>
+
+                <div class="detail-info">
+                    <h1 id="workTitle">作品标题</h1>
+                    
+                    <div class="meta-info">
+                        <div class="meta-item">
+                            <span class="meta-label">分类：</span>
+                            <span class="category-tag" id="workCategory">分类</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">时长：</span>
+                            <span class="meta-value" id="workDuration">00:00</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">日期：</span>
+                            <span class="meta-value" id="workDate">2026-01-01</span>
+                        </div>
+                    </div>
+
+                    <div class="description">
+                        <h3>简介</h3>
+                        <p id="workDescription">作品简介内容...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 制作过程展示 -->
+    <section class="process-section">
+        <div class="process-container">
+            <h2 class="process-title">Making Process</h2>
+
+            <div class="process-timeline">
+                <!-- 步骤 1：前期准备 -->
+                <div class="process-step">
+                    <div class="step-content">
+                        <span class="step-number">01</span>
+                        <h3>前期策划与准备</h3>
+                        <p>在项目开始前，我们进行了充分的前期调研和策划工作。包括场地勘察、光线分析、设备选型以及拍摄时间规划。通过多次实地考察，确定了最佳拍摄位置和时间窗口。</p>
+                        <p>使用专业软件进行场景预演，确保每个镜头的构图和运动轨迹都经过精心设计。</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Adobe Premiere Pro</span>
+                            <span class="tech-tag">DaVinci Resolve</span>
+                            <span class="tech-tag">Sony A7S III</span>
+                            <span class="tech-tag">DJI Ronin RS2</span>
+                        </div>
+                    </div>
+                    <div class="step-visual">
+                        <img src="https://picsum.photos/800/500?random=10" alt="前期准备截图" class="step-image" loading="lazy">
+                        <p class="image-caption">拍摄现场环境勘测</p>
+                    </div>
+                </div>
+
+                <!-- 步骤 2：拍摄执行 -->
+                <div class="process-step">
+                    <div class="step-content">
+                        <span class="step-number">02</span>
+                        <h3>拍摄与素材采集</h3>
+                        <p>采用多机位协同拍摄，结合延时摄影、航拍、稳定器移动等多种技术手段，全方位捕捉城市夜景的动态美感。</p>
+                        <p>特别注重黄金时段和蓝调时刻的光线变化，记录了从日落到深夜的完整光影过渡过程。</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">4K 60fps</span>
+                            <span class="tech-tag">RAW格式</span>
+                            <span class="tech-tag">延时摄影</span>
+                            <span class="tech-tag">无人机航拍</span>
+                        </div>
+                    </div>
+                    <div class="step-visual">
+                        <img src="https://picsum.photos/800/500?random=11" alt="拍摄过程截图" class="step-image" loading="lazy">
+                        <p class="image-caption">多机位同步拍摄现场</p>
+                    </div>
+                </div>
+
+                <!-- 步骤 3：后期制作 -->
+                <div class="process-step">
+                    <div class="step-content">
+                        <span class="step-number">03</span>
+                        <h3>后期剪辑与调色</h3>
+                        <p>在后期制作阶段，我们对超过200GB的原始素材进行筛选和整理。使用专业的色彩分级工具，为每个场景定制独特的色调风格。</p>
+                        <p>添加动态图形元素和音效设计，增强视觉冲击力和沉浸感。最终输出4K超高清版本。</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">After Effects</span>
+                            <span class="tech-tag">Cinema 4D</span>
+                            <span class="tech-tag">ProRes 4444</span>
+                            <span class="tech-tag">HDR调色</span>
+                        </div>
+                    </div>
+                    <div class="step-visual">
+                        <!-- 调色前后对比滑块 -->
+                        <div class="comparison-slider" id="colorComparison">
+                            <!-- 调色前（左侧） -->
+                            <div class="comparison-before">
+                                <img src="https://picsum.photos/800/500?random=12" alt="调色前" id="beforeImage">
+                                <span class="slider-label label-before">Before</span>
+                            </div>
+
+                            <!-- 调色后（右侧） -->
+                            <div class="comparison-after" id="afterContainer">
+                                <img src="https://picsum.photos/800/500?random=12" alt="调色后" id="afterImage">
+                                <span class="slider-label label-after">After</span>
+                            </div>
+
+                            <!-- 可拖动的分割线 -->
+                            <div class="slider-handle" id="sliderHandle"></div>
+                        </div>
+                        <p class="image-caption">拖动滑块查看调色前后对比效果</p>
+                    </div>
+                </div>
+
+                <!-- 步骤 4：特效合成（可选GIF示例） -->
+                <div class="process-step">
+                    <div class="step-content">
+                        <span class="step-number">04</span>
+                        <h3>视觉特效与合成</h3>
+                        <p>针对部分复杂镜头，采用了CGI元素与实拍素材的融合技术。通过3D建模和粒子系统，增强了画面的层次感和艺术表现力。</p>
+                        <p>下方展示了部分关键帧的渲染过程对比：</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Nuke</span>
+                            <span class="tech-tag">Houdini</span>
+                            <span class="tech-tag">Octane Render</span>
+                        </div>
+                    </div>
+                    <div class="step-visual">
+                        <!-- GIF动图示例 - 可替换为您的实际工程截图或GIF -->
+                        <img src="https://media.giphy.com/media/3o7TKsQ8KqFy7X7Mf6/giphy.gif" alt="特效合成演示" class="step-image" loading="lazy">
+                        <p class="image-caption">特效合成前后对比（GIF演示）</p>
+                    </div>
+                </div>
+
+                <!-- 步骤 5：最终输出 -->
+                <div class="process-step">
+                    <div class="step-content">
+                        <span class="step-number">05</span>
+                        <h3>成品输出与交付</h3>
+                        <p>经过多轮审片和修改后，最终确定成片版本。提供多种规格的输出文件，满足不同平台的播放需求。</p>
+                        <p>整个项目历时3周，团队协作完成了从创意到成片的全部流程。</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">H.265编码</span>
+                            <span class="tech-tag">YouTube优化</span>
+                            <span class="tech-tag">B站适配</span>
+                        </div>
+                    </div>
+                    <div class="step-visual">
+                        <img src="https://picsum.photos/800/500?random=13" alt="最终效果展示" class="step-image" loading="lazy">
+                        <p class="image-caption">最终成片画面截图</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>
+        // 获取URL参数中的作品ID
+        const urlParams = new URLSearchParams(window.location.search);
+        const workId = urlParams.get('id');
+
+        // 作品数据（实际使用时替换为真实数据）
+        const worksData = {
+            '1': {
+                title: '城市光影',
+                category: '视频制作',
+                duration: '03:45',
+                date: '2026-03-15',
+                description: '这是一部关于城市夜景的延时摄影作品，通过长时间曝光和延时拍摄技术，捕捉了城市从黄昏到深夜的光影变化。作品中展现了现代都市的繁华与宁静，以及建筑与自然光的完美融合。',
+                videoUrl: 'https://videos.studiorf.xin/Annoying%20Cat_1.mp4'
+            },
+            '2': {
+                title: '自然之声',
+                category: '纪录片',
+                duration: '05:20',
+                date: '2026-02-28',
+                description: '本片记录了大自然的壮丽景色，从山川河流到森林草原，通过镜头语言展现自然界的原始美。每一帧画面都经过精心构图，旨在唤起观众对环境保护的关注。',
+                videoUrl: 'https://videos.studiorf.xin/Loveletter%E6%9C%80%E7%BB%88%E6%B8%B2%E6%9F%93.mp4'
+            },
+            '3': {
+                title: '人物肖像',
+                category: '摄影',
+                duration: '02:30',
+                date: '2026-02-10',
+                description: '一组精心策划的人物肖像摄影作品，通过与不同背景、不同职业的人士深入交流，用镜头捕捉每个人独特的气质和故事。作品强调真实情感的表达。',
+                videoUrl: 'https://videos.studiorf.xin/Me%20Vs%20Pythus.mp4'
+            },
+            '4': {
+                title: '品牌视觉',
+                category: '广告片',
+                duration: '00:60',
+                date: '2026-01-25',
+                description: '为知名品牌打造的高端视觉宣传片，结合品牌理念与现代美学，通过创新的镜头语言和后期制作，呈现品牌的独特魅力和价值主张。',
+                videoUrl: 'https://videos.studiorf.xin/%E5%A4%A9%E5%90%84%E4%B8%80%E6%96%B9%EF%BC%88%E4%B8%8A%EF%BC%89.mp4'
+            },
+            '5': {
+                title: '音乐MV',
+                category: '音乐视频',
+                duration: '04:15',
+                date: '2026-01-08',
+                description: '与独立音乐人合作的音乐视频作品，将音乐的情感通过视觉艺术重新诠释。采用实验性的拍摄手法和非线性叙事结构，创造沉浸式的视听体验。',
+                videoUrl: 'https://videos.studiorf.xin/%E7%A0%B4%E8%8D%A7%E6%83%91_1.mp4'
+            }
+        };
+
+        // 加载作品详情
+        function loadWorkDetail(id) {
+            const work = worksData[id];
+            
+            if (work) {
+                document.getElementById('workTitle').textContent = work.title;
+                document.getElementById('workCategory').textContent = work.category;
+                document.getElementById('workDuration').textContent = work.duration;
+                document.getElementById('workDate').textContent = work.date;
+                document.getElementById('workDescription').textContent = work.description;
+                
+                const video = document.getElementById('detailVideo');
+                video.src = work.videoUrl;
+                video.load();
+                
+                document.title = `${work.title} - Studio RF`;
+            } else {
+                document.getElementById('workTitle').textContent = '未找到该作品';
+                document.getElementById('workDescription').textContent = '抱歉，未找到相关作品信息。';
+            }
+        }
+
+        // 页面加载时执行
+        window.addEventListener('DOMContentLoaded', () => {
+            loadWorkDetail(workId);
+            initComparisonSlider();
+        });
+
+        // 调色前后对比滑块功能
+        function initComparisonSlider() {
+            const slider = document.getElementById('colorComparison');
+            if (!slider) return;
+
+            const handle = document.getElementById('sliderHandle');
+            const afterContainer = document.getElementById('afterContainer');
+            let isDragging = false;
+
+            // 初始化位置（50%）
+            const setPosition = (percentage) => {
+                percentage = Math.max(0, Math.min(100, percentage));
+                afterContainer.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+                afterContainer.style.webkitClipPath = `inset(0 ${100 - percentage}% 0 0)`;
+                handle.style.left = `${percentage}%`;
+            };
+
+            // 设置初始位置为50%
+            setPosition(50);
+
+            // 获取鼠标/触摸位置相对于元素的百分比
+            const getPosition = (e, element) => {
+                const rect = element.getBoundingClientRect();
+                const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+                return (x / rect.width) * 100;
+            };
+
+            // 鼠标按下开始拖动
+            slider.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                e.preventDefault();
+            });
+
+            // 触摸屏支持
+            slider.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                e.preventDefault();
+            }, { passive: false });
+
+            // 鼠标移动更新位置
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const pos = getPosition(e, slider);
+                setPosition(pos);
+            });
+
+            // 触摸屏移动
+            document.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const pos = getPosition(e, slider);
+                setPosition(pos);
+            }, { passive: false });
+
+            // 鼠标释放结束拖动
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            document.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio RF - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">STUDIO RF</div>
+            <!-- 汉堡菜单按钮（仅移动端显示） -->
+            <button class="hamburger" id="hamburger" aria-label="打开菜单" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#works">作品</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 首屏视频区域 -->
+    <section id="home" class="hero-section">
+        <div class="video-container">
+            <video autoplay muted loop playsinline id="heroVideo">
+                <source src="https://videos.studiorf.xin/%E5%BC%80%E5%B1%8F%E6%B7%B7%E5%AA%82.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+            <div class="hero-content">
+                <h1>STUDIO RF</h1>
+                <p>创意无限</p>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>向下滚动查看作品</span>
+            <div class="arrow-down"></div>
+        </div>
+    </section>
+
+    <!-- 作品展示区 -->
+    <section id="works" class="works-section">
+        <div class="works-container">
+            <h2 class="section-title">Works</h2>
+            <div class="works-layout">
+                <!-- 左侧大卡片 -->
+                <div class="work-card large-card" data-id="1" onclick="goToDetail(1)">
+                    <div class="card-image-wrapper">
+                        <img src="https://picsum.photos/800/600?random=1" alt="城市光影" loading="lazy">
+                    </div>
+                    <div class="card-info">
+                        <h3>城市光影</h3>
+                        <p>城市夜景延时摄影系列</p>
+                        <span class="category">视频制作</span>
+                    </div>
+                </div>
+
+                <!-- 右侧小卡片区域 -->
+                <div class="small-cards-grid">
+                    <div class="work-card small-card" data-id="2" onclick="goToDetail(2)">
+                        <div class="card-image-wrapper">
+                            <img src="https://picsum.photos/400/300?random=2" alt="自然之声" loading="lazy">
+                        </div>
+                        <div class="card-info">
+                            <h3>自然之声</h3>
+                            <p>自然纪录片片段集锦</p>
+                            <span class="category">纪录片</span>
+                        </div>
+                    </div>
+
+                    <div class="work-card small-card" data-id="3" onclick="goToDetail(3)">
+                        <div class="card-image-wrapper">
+                            <img src="https://picsum.photos/400/300?random=3" alt="人物肖像" loading="lazy">
+                        </div>
+                        <div class="card-info">
+                            <h3>人物肖像</h3>
+                            <p>人物访谈与肖像拍摄</p>
+                            <span class="category">摄影</span>
+                        </div>
+                    </div>
+
+                    <div class="work-card small-card" data-id="4" onclick="goToDetail(4)">
+                        <div class="card-image-wrapper">
+                            <img src="https://picsum.photos/400/300?random=4" alt="品牌视觉" loading="lazy">
+                        </div>
+                        <div class="card-info">
+                            <h3>品牌视觉</h3>
+                            <p>商业品牌宣传片</p>
+                            <span class="category">广告片</span>
+                        </div>
+                    </div>
+
+                    <div class="work-card small-card" data-id="5" onclick="goToDetail(5)">
+                        <div class="card-image-wrapper">
+                            <img src="https://picsum.photos/400/300?random=5" alt="音乐MV" loading="lazy">
+                        </div>
+                        <div class="card-info">
+                            <h3>音乐MV</h3>
+                            <p>独立音乐人合作项目</p>
+                            <span class="category">音乐视频</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>&copy; 2026 Studio RF. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
